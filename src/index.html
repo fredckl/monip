@@ -5,6 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mon IP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 
   <style>
     /* http://meyerweb.com/eric/tools/css/reset/
@@ -56,10 +59,36 @@
       border-spacing: 0;
     }
 
+    body {
+      font-family: 'Oswald', sans-serif;
+    }
+
+    .title {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 2rem;
+      color: rgb(233, 229, 18);
+      text-transform: uppercase;
+
+    }
+    .title:before, .title:after {
+      font-size: 2.7rem;
+    }
+    .title:before {
+      content: "[";
+      margin-right: 1rem;
+    }
+    .title:after {
+      content: "]";
+      margin-left: 1rem;
+    }
+
     .container {
       display: flex;
       height: 100vh;
       width: 100vw;
+      background-color: rgb(23, 35, 44);
     }
 
     .center {
@@ -70,23 +99,115 @@
 
     .text-large {
       font-size: 3rem;
+      transition: all .3s;
+    }
+    .text-large:hover {
+      /* transform: scale(2); */
+    }
+
+    .text-light {
+      color: #ddd;
+    }
+
+    .pointer {
+      cursor: pointer;;
+    }
+    .toast {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      background-color: rgb(85, 49, 80);
+      color: #ddd;
+      padding: .5rem;
+      border-top-left-radius: 4px;
+      opacity: 0;
+      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      transition: all .5s;
+    }
+    .opacity-1 {
+      opacity: 1;
+      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+      filter: alpha(opacity=1);
+    }
+
+    .loading {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #ddd;
+
     }
   </style>
 
   <script>
-    function getIp() {
-      fetch('https://api.ipify.org/?format=json')
-      .then(function(res) { return res.json()})
-      .then(function (result) {
-        document.querySelector('#monip').innerHTML = result.ip
-      })
+    function createLoading () {
+      var loading = document.createElement('div');
+      loading.id = 'loading';
+      loading.classList.add('loading');
+      loading.innerHTML = 'chargement en cours...';
+
+      document.body.appendChild(loading);
     }
-    getIp();
+
+    function removeLoading () {
+      var loading = document.querySelector('#loading');
+      document.body.removeChild(loading);
+    }
+
+    function createToast (text) {
+      var toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.classList.add('toast');
+      toast.innerHTML = text;
+
+      document.body.appendChild(toast);
+      setTimeout(function() {
+        toast.classList.add('opacity-1');
+      }, 10)
+      setTimeout(function () {
+        document.body.removeChild(toast);
+      }, 1000)
+
+    }
+    window.addEventListener('load', function () {
+      var elm = document.querySelector('#monip');
+      function getIp() {
+        createLoading();
+        fetch('https://api.ipify.org/?format=json')
+        .then(function(res) { return res.json()})
+        .then(function (result) {
+          elm.innerHTML = result.ip;
+          removeLoading();
+        })
+      }
+      getIp();
+
+      function clickIp() {
+        navigator.clipboard.writeText(elm.textContent).then(function() {
+          createToast('Copié √')
+          elm.style.transform = 'scale(1.2)'
+          setTimeout(function () {
+            elm.style.transform = 'scale(1)'
+          }, 200)
+
+        }, function() {
+          createToast('Erreur')
+        });
+      }
+
+      elm.addEventListener('click', clickIp)
+    })
   </script>
 </head>
 <body>
+  <h1 class="title">Mon ip publique</h1>
   <div class="container center">
-    <p id="monip" class="center text-large"></p>
+    <p
+      id="monip"
+      class="center text-large text-light pointer"
+    ></p>
   </div>
 </body>
 </html>
