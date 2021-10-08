@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,19 +16,87 @@
       License: none (public domain)
     */
 
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed,
-    figure, figcaption, footer, header, hgroup,
-    menu, nav, output, ruby, section, summary,
-    time, mark, audio, video {
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
       margin: 0;
       padding: 0;
       border: 0;
@@ -35,25 +104,44 @@
       font: inherit;
       vertical-align: baseline;
     }
+
     /* HTML5 display-role reset for older browsers */
-    article, aside, details, figcaption, figure,
-    footer, header, hgroup, menu, nav, section {
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
       display: block;
     }
+
     body {
       line-height: 1;
     }
-    ol, ul {
+
+    ol,
+    ul {
       list-style: none;
     }
-    blockquote, q {
+
+    blockquote,
+    q {
       quotes: none;
     }
-    blockquote:before, blockquote:after,
-    q:before, q:after {
+
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
       content: '';
       content: none;
     }
+
     table {
       border-collapse: collapse;
       border-spacing: 0;
@@ -72,13 +160,17 @@
       text-transform: uppercase;
 
     }
-    .title:before, .title:after {
+
+    .title:before,
+    .title:after {
       font-size: 2.7rem;
     }
+
     .title:before {
       content: "[";
       margin-right: 1rem;
     }
+
     .title:after {
       content: "]";
       margin-left: 1rem;
@@ -101,6 +193,7 @@
       font-size: 3rem;
       transition: all .3s;
     }
+
     .text-large:hover {
       /* transform: scale(2); */
     }
@@ -110,8 +203,10 @@
     }
 
     .pointer {
-      cursor: pointer;;
+      cursor: pointer;
+      ;
     }
+
     .toast {
       position: absolute;
       bottom: 0;
@@ -122,13 +217,14 @@
       padding: .5rem;
       border-top-left-radius: 4px;
       opacity: 0;
-      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
       filter: alpha(opacity=0);
       transition: all .5s;
     }
+
     .opacity-1 {
       opacity: 1;
-      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
       filter: alpha(opacity=1);
     }
 
@@ -138,6 +234,7 @@
       left: 10px;
       color: #ddd;
     }
+
     .footer-logo {
       position: fixed;
       bottom: 0;
@@ -149,13 +246,14 @@
       align-items: center;
       height: 40px;
     }
+
     .color-white {
       color: #ccc;
     }
   </style>
 
   <script>
-    function createLoading () {
+    function createLoading() {
       var loading = document.createElement('div');
       loading.id = 'loading';
       loading.classList.add('loading');
@@ -164,19 +262,19 @@
       document.body.appendChild(loading);
     }
 
-    function removeLoading () {
+    function removeLoading() {
       var loading = document.querySelector('#loading');
       document.body.removeChild(loading);
     }
 
-    function createToast (text) {
+    function createToast(text) {
       var toast = document.createElement('div');
       toast.id = 'toast';
       toast.classList.add('toast');
       toast.innerHTML = text;
 
       document.body.appendChild(toast);
-      setTimeout(function() {
+      setTimeout(function () {
         toast.classList.add('opacity-1');
       }, 10)
       setTimeout(function () {
@@ -188,24 +286,25 @@
       var elm = document.querySelector('#monip');
       function getIp() {
         createLoading();
-        fetch('https://api.ipify.org/?format=json')
-        .then(function(res) { return res.json()})
-        .then(function (result) {
-          elm.innerHTML = result.ip;
-          removeLoading();
-        })
+        // fetch('https://api.ipify.org/?format=json')
+        fetch('/api/v1/get-ip')
+          .then(function (res) { return res.json() })
+          .then(function (result) {
+            elm.innerHTML = result.ip;
+            removeLoading();
+          })
       }
       getIp();
 
       function clickIp() {
-        navigator.clipboard.writeText(elm.textContent).then(function() {
+        navigator.clipboard.writeText(elm.textContent).then(function () {
           createToast('Copié √')
           elm.style.transform = 'scale(1.2)'
           setTimeout(function () {
             elm.style.transform = 'scale(1)'
           }, 200)
 
-        }, function() {
+        }, function () {
           createToast('Erreur')
         });
       }
@@ -214,13 +313,11 @@
     })
   </script>
 </head>
+
 <body>
   <h1 class="title">Mon ip publique</h1>
   <div class="container center">
-    <p
-      id="monip"
-      class="center text-large text-light pointer"
-    ></p>
+    <p id="monip" class="center text-large text-light pointer"></p>
     <div class="footer-logo">
       <a href="//www.frederickoller.ch" target="_blank">
         <svg viewBox="0 0 231 187" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"
@@ -238,4 +335,5 @@
     </div>
   </div>
 </body>
+
 </html>
