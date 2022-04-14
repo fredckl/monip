@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const requestIp = require('request-ip')
 const path = require('path');
 const PORT = 3000;
 
@@ -8,9 +9,9 @@ const app = express();
 app.use(cors());
 
 app.get('/api/v1/get-ip', function (req, res) {
-  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+  clientIp = requestIp.getClientIp(request);remoteAddress;
   res.json({
-    ip
+    ip: clientIp
   })
 })
 
