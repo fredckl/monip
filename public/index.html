@@ -304,7 +304,6 @@
 
       httpGetAsync(url, function (res) {
         res = JSON.parse(res);
-        console.log(res);
         elm.innerHTML = res.ip_address
       })
 
