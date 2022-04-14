@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 
 app.get('/api/v1/get-ip', function (req, res) {
-  clientIp = requestIp.getClientIp(request);remoteAddress;
+  clientIp = requestIp.getClientIp(req);
   res.json({
     ip: clientIp
   })
