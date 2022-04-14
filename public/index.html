@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 
+  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
   <style>
     /* http://meyerweb.com/eric/tools/css/reset/
       v2.0 | 20110126
@@ -284,17 +286,27 @@
     }
     window.addEventListener('load', function () {
       var elm = document.querySelector('#monip');
-      function getIp() {
+
+      function httpGetAsync(url, callback) {
         createLoading();
-        // fetch('https://api.ipify.org/?format=json')
-        fetch('/api/v1/get-ip')
-          .then(function (res) { return res.json() })
-          .then(function (result) {
-            elm.innerHTML = result.ip;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            callback(xmlHttp.responseText);
             removeLoading();
-          })
+          }
+        }
+        xmlHttp.open("GET", url, true); // true for asynchronous
+        xmlHttp.send(null);
       }
-      getIp();
+
+      var url = "https://ipgeolocation.abstractapi.com/v1/?api_key=8732de3659f14c49817c1311fd84eaf0"
+
+      httpGetAsync(url, function (res) {
+        res = JSON.parse(res);
+        console.log(res);
+        elm.innerHTML = res.ip_address
+      })
 
       function clickIp() {
         navigator.clipboard.writeText(elm.textContent).then(function () {
@@ -311,6 +323,7 @@
 
       elm.addEventListener('click', clickIp)
     })
+
   </script>
 </head>
 
