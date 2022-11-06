@@ -1,0 +1,46 @@
+kind: pipeline
+name: default
+
+workspace:
+  base: /usr/share/nginx/html
+
+steps:
+  - name: build-image
+    image: plugins/docker
+    settings:
+      username: ${DOCKER_USERNAME}
+      password: ${DOCKER_PASSWORD}
+      registry: ${DOCKER_REGISTRY}
+      repo: ${DOCKER_REGISTRY}/frederickoller/monip
+      auto_tag: true
+      build_args:
+        - BUILD_VERSION=${DRONE_TAG}
+
+    when:
+      branch:
+        - main
+
+  - name: build-image-fix-branch
+    image: plugins/docker
+
+    settings:
+      username: ${DOCKER_USERNAME}
+      password: ${DOCKER_PASSWORD}
+      registry: ${DOCKER_REGISTRY}
+      repo: ${DOCKER_REGISTRY}/frederickoller/monip
+      auto_tag: false
+      tags:
+        - ${DRONE_COMMIT_BRANCH/\//-}
+      build_args:
+        - BUILD_VERSION=${DRONE_TAG}
+    when:
+      branch:
+        - fix/*
+
+trigger:
+  branch:
+    - main
+    - fix/*
+  event:
+    - push
+    - tag
