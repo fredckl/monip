@@ -42,5 +42,4 @@ trigger:
     - main
     - fix/*
   event:
-    - push
     - tag
