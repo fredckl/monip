@@ -5,7 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - PORT=3000
     ports:
-      - "8080:80"
+      - "8081:3000"
+
     volumes:
-      - ./public:/usr/share/nginx/html
+      - ./:/service

@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
 
-  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 
   <style>
     /* http://meyerweb.com/eric/tools/css/reset/
@@ -253,83 +252,12 @@
       color: #ccc;
     }
   </style>
-
-  <script>
-    function createLoading() {
-      var loading = document.createElement('div');
-      loading.id = 'loading';
-      loading.classList.add('loading');
-      loading.innerHTML = 'chargement en cours...';
-
-      document.body.appendChild(loading);
-    }
-
-    function removeLoading() {
-      var loading = document.querySelector('#loading');
-      document.body.removeChild(loading);
-    }
-
-    function createToast(text) {
-      var toast = document.createElement('div');
-      toast.id = 'toast';
-      toast.classList.add('toast');
-      toast.innerHTML = text;
-
-      document.body.appendChild(toast);
-      setTimeout(function () {
-        toast.classList.add('opacity-1');
-      }, 10)
-      setTimeout(function () {
-        document.body.removeChild(toast);
-      }, 1000)
-
-    }
-    window.addEventListener('load', function () {
-      var elm = document.querySelector('#monip');
-
-      function httpGetAsync(url, callback) {
-        createLoading();
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function () {
-          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            callback(xmlHttp.responseText);
-            removeLoading();
-          }
-        }
-        xmlHttp.open("GET", url, true); // true for asynchronous
-        xmlHttp.send(null);
-      }
-
-      var url = "https://ipgeolocation.abstractapi.com/v1/?api_key=8732de3659f14c49817c1311fd84eaf0"
-
-      httpGetAsync(url, function (res) {
-        res = JSON.parse(res);
-        elm.innerHTML = res.ip_address
-      })
-
-      function clickIp() {
-        navigator.clipboard.writeText(elm.textContent).then(function () {
-          createToast('Copié √')
-          elm.style.transform = 'scale(1.2)'
-          setTimeout(function () {
-            elm.style.transform = 'scale(1)'
-          }, 200)
-
-        }, function () {
-          createToast('Erreur')
-        });
-      }
-
-      elm.addEventListener('click', clickIp)
-    })
-
-  </script>
 </head>
 
 <body>
   <h1 class="title">Mon ip publique</h1>
   <div class="container center">
-    <p id="monip" class="center text-large text-light pointer"></p>
+    {{{body}}}
     <div class="footer-logo">
       <a href="//www.frederickoller.ch" target="_blank">
         <svg viewBox="0 0 231 187" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"
