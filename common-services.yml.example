@@ -1,0 +1,4 @@
+services:
+  monip:
+    environment:
+      - IP_API_KEY=

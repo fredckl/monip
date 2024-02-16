@@ -2,21 +2,27 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const IP = require('ip');
+const axios = require('axios');
+
 const port = process.env.PORT || 3000
 const path = require('path')
 const hbs = require('express-hbs')
 
+const URL = `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IP_API_KEY}`;
 
-app.engine('hbs', hbs.express4({
-  partialsDir: path.join(__dirname, '..', 'views','partials')
-}));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '..', 'views'));
 
-app.get('/', (req, res) => {
-    const ipAddress = IP.address();
-    res.render('home', {ip: ipAddress});
-    // res.send(ipAddress)
+const sendAPIRequest = async (ipAddress) => {
+  const apiResponse = await axios.get(URL + "&ip_address=" + ipAddress);
+  return apiResponse.data;
+}
+
+app.get('/', async (req, res) => {
+  const ipAddress = IP.address();
+  const ipAddressInformation = await sendAPIRequest(ipAddress);
+
+  res.render('home', {ip: ipAddressInformation.ip});
 })
 
 app.listen(port, () => {

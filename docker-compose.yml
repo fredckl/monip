@@ -7,6 +7,9 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=3000
+    extends:
+      file: common-services.yml
+      service: monip
     ports:
       - "8081:3000"
 
